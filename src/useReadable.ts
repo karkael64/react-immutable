@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Readable, ReadableCallback, readable } from "./readable";
+import { Readable, ReadableCallback, isReadable, readable } from "./readable";
 import { useImmutable } from "./useImmutable";
 
 type UseReadableOuput<State> = [State, Readable<State>];
@@ -16,12 +16,12 @@ type UseReadable = {
 export const useReadable: UseReadable = <State>(
   reader: Readable<State> | ReadableCallback<State>
 ): UseReadableOuput<State> => {
-  const [state, setState] = useState<State>(
-    reader instanceof Readable ? reader.valueOf() : undefined
+  const [state, setState] = useState<State | undefined>(
+    isReadable(reader) ? reader.valueOf() : undefined
   );
 
   const unmutable = useImmutable((): UseReadableOuput<State> => {
-    const binded = reader instanceof Readable ? reader : readable(reader);
+    const binded = isReadable(reader) ? reader : readable(reader);
     return [binded.valueOf(), binded];
   });
 
@@ -32,6 +32,6 @@ export const useReadable: UseReadable = <State>(
     };
   }, []);
 
-  unmutable[0] = state;
+  unmutable[0] = state as State;
   return unmutable;
 };

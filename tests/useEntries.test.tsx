@@ -12,10 +12,10 @@ import {
 
 const Comp: React.FC<{
   onRender(): void;
-  onStateChange(id: number): void;
+  onStateChange(id?: number): void;
   onEntriesChange(entries: EntriesMethods<{ state: number }>): void;
-  onEntriesStateChange(entry: { state: number }): void;
-  onReadBaseState(id: number): void;
+  onEntriesStateChange(entry?: { state: number }): void;
+  onReadBaseState(id?: number): void;
 }> = ({
   onRender,
   onStateChange,
@@ -70,14 +70,14 @@ test("useEntries", async () => {
   expect(queryByText("1024")).toBeNull();
 
   const entries: EntriesMethods<{ state: number }> =
-    onEntriesChange.calls[0][0];
+    onEntriesChange.calls[0]?.[0];
   expect(entries).a("object");
   expect(entries.countEntries()).toBe(1);
   expect(entries.getFirst()).toBeDefined();
   expect(entries.getFirst()).toBe(entries.getLast());
 
   await waitFor(() => expect(onReadBaseState.calls.length).toBe(1));
-  expect(onReadBaseState.calls[0][0]).toBe(1024);
+  expect(onReadBaseState.calls[0]?.[0]).toBe(1024);
   expect(onRender.calls.length, "should 1st render + 2 updates").toBe(3);
   expect(onStateChange.calls.length, "should be same as onRender").toBe(
     onRender.calls.length
@@ -94,9 +94,9 @@ test("useEntries", async () => {
   expect(entries.getFirst()).not.toBe(entries.getLast());
   expect(entries.getEntries()[0]).toBe(entries.getFirst());
   expect(entries.getEntries()[2]).toBe(entries.getLast());
-  expect(entries.getEntries()[0].state).toBe(-4.2);
-  expect(entries.getEntries()[1].state).toBe(9);
-  expect(entries.getEntries()[2].state).toBe(1024);
+  expect(entries.getEntries()[0]?.state).toBe(-4.2);
+  expect(entries.getEntries()[1]?.state).toBe(9);
+  expect(entries.getEntries()[2]?.state).toBe(1024);
 
   expect(queryByText("-4.2")).toBeNull();
   expect(queryByText("9")).toBeNull();

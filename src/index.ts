@@ -1,9 +1,10 @@
-export { useBase } from "./useBase";
-export { useCallbackBase } from "./useCallbackBase";
 export { useImmutable } from "./useImmutable";
+export { useBase } from "./useBase";
 export { useMemoBase } from "./useMemoBase";
+export { useCallbackBase } from "./useCallbackBase";
 export { useEntries } from "./useEntries";
 export { useWritable } from "./useWritable";
+export { useReadable } from "./useReadable";
 
 export { Readable, readable } from "./readable";
 export { Writable, writable } from "./writable";

@@ -1,7 +1,7 @@
 import { useImmutable } from "./useImmutable";
 
 /**
- * this hook write properties of entry in an immutable (in React life cycle) object `base`, which is usefull for referencing items that should be read only.
+ * this hook writes properties of `entry` in an immutable (in React life cycle) object `base`, which is usefull for referencing items that should be read only.
  * @param entry is any object (the prototype and not enumerable properties of `entry` are ignored)
  * @returns a new object immutable in React life cycle, with properties copied from `entry`, but without object prototype
  * @example

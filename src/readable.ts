@@ -2,74 +2,88 @@ import { Writable, WritableListener } from "./writable";
 
 export type ReadableListener<State> = WritableListener<State>;
 type ReadableUpdater<State> = (newValue: State) => void;
+
 export type ReadableCallback<State> = (
   updater: ReadableUpdater<State>
 ) => undefined | (() => void);
-type ReadableUnsubscribe = () => void;
 
-export class Readable<State> {
-  private value: State;
+export type Readable<State> = {
+  subscribe(listener: ReadableListener<State>): () => boolean;
+  unsubscribe(): void;
+  valueOf(): State;
+  toString(): string;
+};
 
-  private listeners: ReadableListener<State>[] = [];
+const symbol = Symbol("readable");
 
-  private unsubscribeCb?: ReadableUnsubscribe;
+export const readable = <State>(
+  reader: ReadableCallback<State>
+): Readable<State> => {
+  let value = undefined as State;
+  const listeners: ReadableListener<State>[] = [];
 
-  constructor(reader: ReadableCallback<State>) {
-    const updater = (newValue: State) => this.set(newValue);
-    this.unsubscribeCb = reader(updater);
-  }
+  const set = (newValue: State) => {
+    if (newValue !== value) {
+      value = newValue;
+      for (const listener of listeners) {
+        listener(value);
+      }
+    }
+  };
+
+  const updater = (newValue: State) => set(newValue);
+  const unsubscribeCb = reader(updater);
 
   /**
    * add a function listening this Writable changes (update or set)
    * @param {ReadableListener<State>} listener function executed at each changes (update or set) of this Writable, executed immediatly.
    */
-  subscribe(listener: ReadableListener<State>) {
-    this.listeners.push(listener);
-    listener(this.value);
+  const subscribe = (listener: ReadableListener<State>) => {
+    listeners.push(listener);
+    listener(value);
 
     const unsubscribe = () => {
-      const index = this.listeners.indexOf(listener);
+      const index = listeners.indexOf(listener);
       if (index !== 1) {
-        this.listeners.splice(index, 1);
+        listeners.splice(index, 1);
         return true;
       }
       return false;
     };
 
     return unsubscribe;
-  }
+  };
 
-  unsubscribe() {
-    if (this.unsubscribeCb) this.unsubscribeCb?.();
+  const unsubscribe = () => {
+    if (unsubscribeCb) unsubscribeCb();
     else throw new Error("This Readable instance has no unsubscribe callback");
-  }
+  };
 
-  private set(value: State) {
-    if (value !== this.value) {
-      this.value = value;
-      for (const listener of this.listeners) {
-        listener(this.value);
-      }
-    }
-  }
+  const valueOf = (): State => {
+    return value;
+  };
 
-  valueOf(): State {
-    return this.value;
-  }
+  const toString = (): string => {
+    return `${value}`;
+  };
 
-  toString(): string {
-    return `${this.value}`;
-  }
-}
-
-export const readable = <State>(reader: ReadableCallback<State>) =>
-  new Readable(reader);
+  return {
+    subscribe,
+    unsubscribe,
+    valueOf,
+    toString,
+    [symbol]: symbol,
+  } as Readable<State>;
+};
 
 export const readableFromWritable = <State, Input>(
   writable: Writable<State, Input>
 ) =>
-  new Readable<State>((set) =>
+  readable<State>((set) =>
     writable.subscribe((newValue) => {
       set(newValue);
     })
   );
+
+export const isReadable = <State>(el: unknown): el is Readable<State> =>
+  !!(el && typeof el === "object" && symbol in el);

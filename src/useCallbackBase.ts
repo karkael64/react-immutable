@@ -2,8 +2,7 @@ import { useBase } from "./useBase";
 import { useImmutable } from "./useImmutable";
 
 /**
- * this hook creates an immutable callback, with component states registered in `values` available
- * as prepend to others
+ * this hook creates an immutable callback, with component states `values` registered in `base` as parameter of your `fn` callback
  * @example
  * ```ts
  * const Comp: React.FC<{ id: number }> = ({ id }) => {

@@ -2,7 +2,7 @@ import { useBase } from "./useBase";
 import { useEffect, useRef, useState } from "react";
 
 /**
- * this hook let you trigger `fn` callbakc when `dependencies` list changes like a useMemo, but with a state registered in `values` as parameter of your `fn` callback.
+ * this hook let you trigger `fn` callback when `dependencies` list changes like a useMemo, but with a state `values` registered in `base` as parameter of your `fn` callback.
  * @param values every values that should be read only, used in parameter `base` of `fn` callback
  * @param fn callback executed each changing of `dependencies` list, with `base` as first parameter.
  * @param dependencies list of items listened on change for updating returned value by `fn`. If empty, `fn` will be executed at first render only, same as `[]`.

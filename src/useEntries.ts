@@ -10,7 +10,7 @@ export type EntriesMethods<T> = {
 };
 
 /**
- * this hook register a state entry each React render life cycle
+ * this hook registers a state entry each React life cycle render
  * @param entry state registered
  * @returns an immutable object with methods to get entries
  * @example

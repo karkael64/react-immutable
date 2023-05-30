@@ -2,7 +2,7 @@ import { render, waitFor } from "@testing-library/react";
 import { useEffect } from "react";
 import { expect, it, test } from "vitest";
 import { useReadable } from "../src/useReadable";
-import { readable, Readable, readableFromWritable } from "../src/readable";
+import { Readable, readableFromWritable } from "../src/readable";
 import "global-jsdom/register";
 import { Writable, writable } from "../src";
 

@@ -1,6 +1,14 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "jsx": "react-jsx",
-    "types": ["vitest/importMeta"]
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noUncheckedIndexedAccess": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es2015",
+    "noEmit": true
   }
 }

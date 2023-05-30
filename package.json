@@ -1,5 +1,16 @@
 {
   "name": "react-immutable",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "typings": "dist/types/index.d.ts",
+  "scripts": {
+    "test": "vitest",
+    "build": "yarn build-js-esm && yarn build-js-cjs",
+    "build-js-esm": "tsc --project tsconfig.build.json --outDir dist/esm --module esnext --declaration --declarationDir dist/types",
+    "build-js-cjs": "tsc --project tsconfig.build.json --outDir dist/cjs --module commonjs",
+    "prettier": "prettier --write ."
+  },
   "dependencies": {
     "react": "^18.2.0"
   },
@@ -10,6 +21,10 @@
     "jsdom": "^22.1.0",
     "prettier": "^2.8.8",
     "react-dom": "^18.2.0",
+    "typescript": "^5.0.4",
     "vitest": "^0.31.1"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }

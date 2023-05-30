@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { WritableReducer, Writable, writable } from "./writable";
+import { WritableReducer, Writable, writable, isWritable } from "./writable";
 import { useImmutable } from "./useImmutable";
 
 const isFunction = (el: unknown): el is (...args: any[]) => any =>
@@ -32,11 +32,13 @@ export const useWritable: UseWritable = <State, Value = State>(
   reducer?: WritableReducer<State, Value>
 ): UseWritableOuput<State, Value> => {
   const [state, setState] = useState<State>(
-    init instanceof Writable ? init.valueOf() : init
+    isWritable<State, Value>(init) ? init.valueOf() : init
   );
 
   const unmutable = useImmutable((): UseWritableOuput<State, Value> => {
-    const binded = init instanceof Writable ? init : writable(init, reducer);
+    const binded = isWritable<State, Value>(init)
+      ? init
+      : writable(init, reducer);
     return [
       binded.valueOf(),
       (updater) => {
