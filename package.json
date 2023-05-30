@@ -1,0 +1,15 @@
+{
+  "name": "react-immutable",
+  "dependencies": {
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@types/react": "^18.2.7",
+    "global-jsdom": "^9.0.1",
+    "jsdom": "^22.1.0",
+    "prettier": "^2.8.8",
+    "react-dom": "^18.2.0",
+    "vitest": "^0.31.1"
+  }
+}
