@@ -2,6 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.isReadable = exports.readableFromWritable = exports.readable = void 0;
 const symbol = Symbol("readable");
+/**
+ * readable listen an event or a subscription and give its value for scripts subscribing it.
+ * @param reader is a callback with `set` as parameter, which should be called each time the readable value changes. The callback can return a callback for unsubscribing the `set` callback.
+ * @example
+ * ```ts
+ * const storage = writable({ user: 'me' });
+ * const readStorage = readable((set) => storage.subscribe(set));
+ * ```
+ * @example
+ * ```ts
+ * const geo = readable<GeolocationPosition>((set) => {
+ *   const id = navigator.geolocation.watchPosition(set);
+ *   return () => navigator.geolocation.clearWatch(id);
+ * });
+ * ```
+ */
 const readable = (reader) => {
     let value = undefined;
     const listeners = [];
@@ -13,12 +29,7 @@ const readable = (reader) => {
             }
         }
     };
-    const updater = (newValue) => set(newValue);
-    const unsubscribeCb = reader(updater);
-    /**
-     * add a function listening this Writable changes (update or set)
-     * @param {ReadableListener<State>} listener function executed at each changes (update or set) of this Writable, executed immediatly.
-     */
+    const unsubscribeCb = reader(set);
     const subscribe = (listener) => {
         listeners.push(listener);
         listener(value);
@@ -33,10 +44,11 @@ const readable = (reader) => {
         return unsubscribe;
     };
     const unsubscribe = () => {
-        if (unsubscribeCb)
+        if (unsubscribeCb) {
             unsubscribeCb();
-        else
-            throw new Error("This Readable instance has no unsubscribe callback");
+            return true;
+        }
+        return false;
     };
     const valueOf = () => {
         return value;

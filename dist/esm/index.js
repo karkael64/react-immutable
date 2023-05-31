@@ -5,5 +5,5 @@ export { useCallbackBase } from "./useCallbackBase";
 export { useEntries } from "./useEntries";
 export { useWritable } from "./useWritable";
 export { useReadable } from "./useReadable";
-export { readable } from "./readable";
-export { writable } from "./writable";
+export { readable, isReadable } from "./readable";
+export { writable, isWritable } from "./writable";

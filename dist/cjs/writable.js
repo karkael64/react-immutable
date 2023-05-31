@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isWritable = exports.writable = void 0;
 const symbol = Symbol("writable");
 /**
- * @class Writable manage its own data with reactive paradigm, it means to trigger listeners callback when its own data change. The data should not be read outside of a `subscribe`.
+ * writable trigger listeners callback when its own data changes by a `set`or an `update`. The data should not be read outside of a `subscribe`.
+ * @param init is the initial value of this writable instance
+ * @param reducer is an optional callback which parses input data (by `set` or `update`) into the
  * @example
  * const key = 'color-scheme' as const;
  * const colorSchemes = ['dark', 'light'];

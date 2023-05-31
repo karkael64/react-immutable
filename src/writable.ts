@@ -36,16 +36,10 @@ export type Writable<State, Input = State> = {
   toString(): string;
 };
 
-type WritableFn<State, Input> = {
-  (init: State): Writable<State, Input>;
-  (init: State, reducer: WritableReducer<State, Input>): WritableReducer<
-    State,
-    Input
-  >;
-};
-
 /**
- * @class Writable manage its own data with reactive paradigm, it means to trigger listeners callback when its own data change. The data should not be read outside of a `subscribe`.
+ * writable trigger listeners callback when its own data changes by a `set`or an `update`. The data should not be read outside of a `subscribe`.
+ * @param init is the initial value of this writable instance
+ * @param reducer is an optional callback which parses input data (by `set` or `update`) into the
  * @example
  * const key = 'color-scheme' as const;
  * const colorSchemes = ['dark', 'light'];
@@ -71,6 +65,7 @@ export const writable = <State, Input = State>(
 ) => {
   let value: State = init;
   const listeners: WritableListener<State>[] = [];
+
   const trigger = (reduced: State) => {
     if (reduced !== value) {
       value = reduced;
@@ -79,6 +74,7 @@ export const writable = <State, Input = State>(
       }
     }
   };
+
   const write: WritableWrite<Input> | WritableWrite<State> = reducer
     ? (value: Input) => reducer(init, value, trigger)
     : trigger;

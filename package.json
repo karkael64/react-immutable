@@ -9,7 +9,7 @@
     "build": "yarn build-js-esm && yarn build-js-cjs",
     "build-js-esm": "tsc --project tsconfig.build.json --outDir dist/esm --module esnext --declaration --declarationDir dist/types",
     "build-js-cjs": "tsc --project tsconfig.build.json --outDir dist/cjs --module commonjs",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write src tests"
   },
   "dependencies": {
     "react": "^18.2.0"

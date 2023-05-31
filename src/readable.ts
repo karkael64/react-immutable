@@ -8,7 +8,16 @@ export type ReadableCallback<State> = (
 ) => undefined | (() => void);
 
 export type Readable<State> = {
+  /**
+   * add a function listening this Readable changes
+   * @param {ReadableListener<State>} listener function executed at each changes (update or set) of this Readable, executed immediatly.
+   * @returns a callback for unsubscribing this `listener`. The callback returns `true` on success, else `false`.
+   */
   subscribe(listener: ReadableListener<State>): () => boolean;
+  /**
+   * end the listening of readable
+   * @returns `true` on success, else `false`.
+   */
   unsubscribe(): void;
   valueOf(): State;
   toString(): string;
@@ -16,6 +25,22 @@ export type Readable<State> = {
 
 const symbol = Symbol("readable");
 
+/**
+ * readable listen an event or a subscription and give its value for scripts subscribing it.
+ * @param reader is a callback with `set` as parameter, which should be called each time the readable value changes. The callback can return a callback for unsubscribing the `set` callback.
+ * @example
+ * ```ts
+ * const storage = writable({ user: 'me' });
+ * const readStorage = readable((set) => storage.subscribe(set));
+ * ```
+ * @example
+ * ```ts
+ * const geo = readable<GeolocationPosition>((set) => {
+ *   const id = navigator.geolocation.watchPosition(set);
+ *   return () => navigator.geolocation.clearWatch(id);
+ * });
+ * ```
+ */
 export const readable = <State>(
   reader: ReadableCallback<State>
 ): Readable<State> => {
@@ -31,13 +56,8 @@ export const readable = <State>(
     }
   };
 
-  const updater = (newValue: State) => set(newValue);
-  const unsubscribeCb = reader(updater);
+  const unsubscribeCb = reader(set);
 
-  /**
-   * add a function listening this Writable changes (update or set)
-   * @param {ReadableListener<State>} listener function executed at each changes (update or set) of this Writable, executed immediatly.
-   */
   const subscribe = (listener: ReadableListener<State>) => {
     listeners.push(listener);
     listener(value);
@@ -55,8 +75,11 @@ export const readable = <State>(
   };
 
   const unsubscribe = () => {
-    if (unsubscribeCb) unsubscribeCb();
-    else throw new Error("This Readable instance has no unsubscribe callback");
+    if (unsubscribeCb) {
+      unsubscribeCb();
+      return true;
+    }
+    return false;
   };
 
   const valueOf = (): State => {
