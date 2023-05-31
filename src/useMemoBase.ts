@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 /**
  * this hook let you trigger `fn` callback when `dependencies` list changes like a useMemo, but with a state `values` registered in `base` as parameter of your `fn` callback.
- * @param values every values that should be read only, used in parameter `base` of `fn` callback
+ * @param entry every values that should be read only, used in parameter `base` of `fn` callback
  * @param fn callback executed each changing of `dependencies` list, with `base` as first parameter.
  * @param dependencies list of items listened on change for updating returned value by `fn`. If empty, `fn` will be executed at first render only, same as `[]`.
  * @returns the returned value by `fn`.
@@ -38,16 +38,16 @@ import { useEffect, useRef, useState } from "react";
  * ```
  */
 export const useMemoBase = <
-  Values extends Record<string, any>,
-  Fn extends (base: Values) => any
+  Entry extends Record<string, any>,
+  Fn extends (base: Entry) => any
 >(
-  values: Values,
+  entry: Entry,
   fn: Fn,
   dependencies: any[] = []
 ): ReturnType<Fn> => {
   if (!(typeof fn === "function"))
     throw new Error("First parameter should be a function");
-  const base = useBase<Values>(values);
+  const base = useBase<Entry>(entry);
   const first = useRef(true);
   const [state, setState] = useState(() => fn(base));
   useEffect(() => {

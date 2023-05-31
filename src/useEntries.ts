@@ -1,11 +1,11 @@
 import { useImmutable } from "./useImmutable";
 
-export type EntriesMethods<T> = {
-  getFirst: () => T | undefined;
-  getLast: () => T | undefined;
-  getEntries: () => T[];
-  getUnique: () => T[];
-  getChangingList: () => T[];
+export type EntriesMethods<Entry> = {
+  getFirst: () => Entry;
+  getLast: () => Entry;
+  getEntries: () => Entry[];
+  getUnique: () => Entry[];
+  getChangingList: () => Entry[];
   countEntries: () => number;
 };
 
@@ -25,19 +25,19 @@ export type EntriesMethods<T> = {
  * ```
  */
 
-export const useEntries = <T>(entry: T) => {
-  const [list, methods] = useImmutable((): [T[], EntriesMethods<T>] => [
+export const useEntries = <Entry>(entry: Entry) => {
+  const [list, methods] = useImmutable((): [Entry[], EntriesMethods<Entry>] => [
     [],
     {
-      getFirst: () => list[0],
-      getLast: () => list[list.length - 1],
+      getFirst: () => list[0]!,
+      getLast: () => list[list.length - 1]!,
       getEntries: () => list.slice(),
       getUnique: () =>
         Array.from(
           list.reduce((acc, item) => {
             acc.add(item);
             return acc;
-          }, new Set<T>())
+          }, new Set<Entry>())
         ),
       getChangingList: () =>
         list.reduce((acc, item) => {
@@ -45,7 +45,7 @@ export const useEntries = <T>(entry: T) => {
             acc.push(item);
           }
           return acc;
-        }, [] as T[]),
+        }, [] as Entry[]),
       countEntries: () => list.length,
     },
   ]);

@@ -2,7 +2,7 @@ import { useBase } from "./useBase";
 import { useImmutable } from "./useImmutable";
 
 /**
- * this hook creates an immutable callback, with component states `values` registered in `base` as parameter of your `fn` callback
+ * this hook creates an immutable callback, with component states `entry` registered in `base` as parameter of your `fn` callback
  * @example
  * ```ts
  * const Comp: React.FC<{ id: number }> = ({ id }) => {
@@ -50,14 +50,14 @@ import { useImmutable } from "./useImmutable";
  * ```
  */
 export const useCallbackBase = <
-  Values extends Record<string, any>,
-  Fn extends (base: Values) => (...args: any[]) => any
+  Entry extends Record<string, any>,
+  Fn extends (base: Entry) => (...args: any[]) => any
 >(
-  values: Values,
+  entry: Entry,
   fn: Fn
 ) => {
   if (!(typeof fn === "function"))
     throw new Error("First parameter should be a function");
-  const base = useBase<Values>(values);
+  const base = useBase<Entry>(entry);
   return useImmutable(() => fn(base) as ReturnType<Fn>);
 };

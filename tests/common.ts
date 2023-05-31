@@ -21,7 +21,7 @@ interface RegisterFn {
 }
 
 export const registerFn = (): RegisterFn => {
-  let calls = [];
+  let calls: any[] = [];
   const callback = (...args: any[]) => {
     calls.push(args);
   };
