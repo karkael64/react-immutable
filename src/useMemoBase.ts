@@ -47,13 +47,14 @@ export const useMemoBase = <
 ): ReturnType<Fn> => {
   if (!(typeof fn === "function"))
     throw new Error("First parameter should be a function");
+  let first = false;
   const base = useBase<Entry>(entry);
-  const first = useRef(true);
-  const [state, setState] = useState(() => fn(base));
+  const [state, setState] = useState(() => {
+    first = true;
+    return fn(base);
+  });
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-    } else {
+    if (!first) {
       setState(() => fn(base));
     }
   }, dependencies);

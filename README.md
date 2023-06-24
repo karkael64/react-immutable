@@ -3,11 +3,11 @@
 ## Installation
 
 ```
-npm install react-immutable
+npm install react-hook-immutable
 ```
 
 ```
-yarn add react-immutable
+yarn add react-hook-immutable
 ```
 
 ## Context
@@ -70,7 +70,7 @@ A `useCallback` with no dependencies returns a callback considered immutable, it
 After many optimizations, the hook `useCallbackBase` has been created to match this purpose:
 
 ```ts
-import { useCallbackBase } from 'react-immutable';
+import { useCallbackBase } from 'react-hook-immutable';
 
 const Comp: React.FC<{ id: string; count: number; onClick(id: string, count: number): void }> = ({ id, count, onClick }) => {
   const handleClick = useCallbackBase({ id, count, onClick }, (base) => base.onClick(base.id, base.count));

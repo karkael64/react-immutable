@@ -1,5 +1,15 @@
 {
-  "name": "react-immutable",
+  "name": "react-hook-immutable",
+  "version": "1.0.0",
+  "description": "react hooks for immutable states",
+  "keywords": ["react", "hooks", "immutable", "states", "useImmutable", "useBase", "useCallbackBase", "useMemoBase", "useEntries", "readable", "writable", "useReadable", "useWritable"],
+  "repository": { "url": "https://github.com/karkael64/react-immutable", "type": "github" },
+  "author": {
+    "url": "https://github.com/karkael64",
+    "email": "karkael@gmail.com",
+    "name": "Karkael Haunter"
+  },
+  "license": "ISC",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",

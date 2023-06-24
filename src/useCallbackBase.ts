@@ -33,7 +33,7 @@ import { useImmutable } from "./useImmutable";
  * const Comp: React.FC<{ count: number }> = ({ count }) => {
  *   const handleClick = useCallback(() => {
  *     console.log('call count', count);
- *   }, [id]);
+ *   }, [count, id]);
  *   return (<button onClick={handleClick}>{count}</button>)
  * };
  * ```
