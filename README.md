@@ -79,7 +79,7 @@ const Comp: React.FC<{ id: string; count: number; onClick(id: string, count: nu
 };
 ```
 
-The `handleClick` returned is immutable, and the `useCallback` is only composed of 2 `useState`.
+The `handleClick` returned is immutable, and the ` useCallbackBase` is only composed of 2 `useState`.
 
 ## Definitions
 

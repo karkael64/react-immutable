@@ -31,9 +31,7 @@ export const useBase = <
 >(
   entry: T
 ): R => {
-  if (!(typeof entry === "object")) {
-    throw new Error("First parameter should be an object");
-  }
+  if (!(typeof entry === "object")) throw new Error("First parameter should be an object");
   const base = useImmutable({} as R);
   return Object.assign(base, entry);
 };
