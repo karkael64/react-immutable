@@ -19,7 +19,7 @@ export type EntriesMethods<Entry> = {
  *   const [state, setState] = useState(-4.2);
  *   const entries = useEntries(state);
  *   const handleReset = useImmutable(() => setState(entries.getFirst()));
- * 
+ *
  *   return <Form state={state} setState={setState} onReset={handleReset} />;
  * };
  * ```

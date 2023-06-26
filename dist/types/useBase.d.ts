@@ -8,7 +8,7 @@
  * const Comp: React.FC = () => {
  *   const [count, setCount] = useState(0);
  *   const base = useBase({ count });
- *   // `base` immutable, `handleClick` is here also immutable
+ *   // `base` and `setCount` are immutable, so `handleClick` is immutable here too
  *   const handleClick = useCallback(() => setCount(base.count + 1), [base, setCount]);
  *   return <button onClick={handleClick}>{count}</button>;
  * };

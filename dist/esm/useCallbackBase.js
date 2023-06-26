@@ -1,7 +1,7 @@
 import { useBase } from "./useBase";
 import { useImmutable } from "./useImmutable";
 /**
- * this hook creates an immutable callback, with component states `values` registered in `base` as parameter of your `fn` callback
+ * this hook creates an immutable callback, with component states `entry` registered in `base` as parameter of your `fn` callback
  * @example
  * ```ts
  * const Comp: React.FC<{ id: number }> = ({ id }) => {
@@ -32,7 +32,7 @@ import { useImmutable } from "./useImmutable";
  * const Comp: React.FC<{ count: number }> = ({ count }) => {
  *   const handleClick = useCallback(() => {
  *     console.log('call count', count);
- *   }, [id]);
+ *   }, [count, id]);
  *   return (<button onClick={handleClick}>{count}</button>)
  * };
  * ```
@@ -48,9 +48,9 @@ import { useImmutable } from "./useImmutable";
  * };
  * ```
  */
-export const useCallbackBase = (values, fn) => {
+export const useCallbackBase = (entry, fn) => {
     if (!(typeof fn === "function"))
         throw new Error("First parameter should be a function");
-    const base = useBase(values);
+    const base = useBase(entry);
     return useImmutable(() => fn(base));
 };

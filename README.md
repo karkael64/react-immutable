@@ -19,19 +19,30 @@ In React life cycle, there is many render because of the state changes, that cau
 The worst solution:
 
 ```tsx
-const Comp: React.FC<{ id: string; count: number; onClick(id: string, count: number): void }> = ({ id, count, onClick }) => {
+const Comp: React.FC<{
+  id: string;
+  count: number;
+  onClick(id: string, count: number): void;
+}> = ({ id, count, onClick }) => {
   const handleClick = () => onClick(id, count);
   return <button onClick={handleClick}>Clicked {count} times!</button>;
 };
 ```
 
-Each time this component or its parents render, the `onClick` event unassign previous callback and assign the new `handleClick`. It can happens many time and make performance issues. 
+Each time this component or its parents render, the `onClick` event unassign previous callback and assign the new `handleClick`. It can happens many time and make performance issues.
 
 The second worst solution:
 
 ```tsx
-const Comp: React.FC<{ id: string; count: number; onClick(id: string, count: number): void }> = ({ id, count, onClick }) => {
-  const handleClick = useCallback(() => onClick(id, count), [id, count, onClick]);
+const Comp: React.FC<{
+  id: string;
+  count: number;
+  onClick(id: string, count: number): void;
+}> = ({ id, count, onClick }) => {
+  const handleClick = useCallback(
+    () => onClick(id, count),
+    [id, count, onClick]
+  );
   return <button onClick={handleClick}>Clicked {count} times!</button>;
 };
 ```
@@ -41,7 +52,11 @@ Now its better, we do not listen each component or parents render. But we still 
 The React solution (when dependencies change frequently):
 
 ```tsx
-const Comp: React.FC<{ id: string; count: number; onClick(id: string, count: number): void }> = ({ id, count, onClick }) => {
+const Comp: React.FC<{
+  id: string;
+  count: number;
+  onClick(id: string, count: number): void;
+}> = ({ id, count, onClick }) => {
   const idRef = useRef(id);
   useEffect(() => {
     idRef.current = id;
@@ -57,23 +72,33 @@ const Comp: React.FC<{ id: string; count: number; onClick(id: string, count: nu
     onClickRef.current = onClick;
   }, [onClick]);
 
-  const handleClick = useCallback(() => onClickRef.current(idRef.current, countRef.current), []);
+  const handleClick = useCallback(
+    () => onClickRef.current(idRef.current, countRef.current),
+    []
+  );
 
   return <button onClick={handleClick}>Clicked {count} times!</button>;
 };
 ```
 
-A `useCallback` with no dependencies returns a callback considered immutable, it never changes. We can merge `useRef`, but its value will be changed every time one of these values are changed. 
+A `useCallback` with no dependencies returns a callback considered immutable, it never changes. We can merge `useRef`, but its value will be changed every time one of these values are changed.
 
 ## Solution
 
 After many optimizations, the hook `useCallbackBase` has been created to match this purpose:
 
 ```ts
-import { useCallbackBase } from 'react-hook-immutable';
+import { useCallbackBase } from "react-hook-immutable";
 
-const Comp: React.FC<{ id: string; count: number; onClick(id: string, count: number): void }> = ({ id, count, onClick }) => {
-  const handleClick = useCallbackBase({ id, count, onClick }, (base) => base.onClick(base.id, base.count));
+const Comp: React.FC<{
+  id: string;
+  count: number;
+  onClick(id: string, count: number): void;
+}> = ({ id, count, onClick }) => {
+  const handleClick = useCallbackBase(
+    { id, count, onClick },
+    (base) => (ev: MouseEvent) => base.onClick(base.id, base.count)
+  );
 
   return <button onClick={handleClick}>Clicked {count} times!</button>;
 };
@@ -87,7 +112,7 @@ The `handleClick` returned is immutable, and the ` useCallbackBase` is only com
 
 The React life cycle is defined by the React component function, executed at each render. A React life cycle starts by execution of component function, then it checks every `useEffect` which dependencies have changed (run the `useEffect` previous destructor and the main callback). It does the same thing with `useLayoutEffect`, then `useInsertionEffect`. When the React component is no more used, the component triggers the last destructors left then disappear.
 
-As the hooks are registered by index (not by name), the hooks should be the same count and at the same place in React component function. 
+As the hooks are registered by index (not by name), the hooks should be the same count and at the same place in React component function.
 
 ### Render
 
@@ -297,5 +322,5 @@ type UseReadable = {
 };
 declare const useReadable: UseReadable;
 
-const [value, readable] = useReadable(geo);
+const [value, geo] = useReadable(geo);
 ```

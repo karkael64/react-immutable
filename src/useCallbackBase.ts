@@ -56,7 +56,8 @@ export const useCallbackBase = <
   entry: Entry,
   fn: Fn
 ) => {
-  if (!(typeof fn === "function")) throw new Error("First parameter should be a function");
+  if (!(typeof fn === "function"))
+    throw new Error("First parameter should be a function");
   const base = useBase<Entry>(entry);
   return useImmutable(() => fn(base) as ReturnType<Fn>);
 };

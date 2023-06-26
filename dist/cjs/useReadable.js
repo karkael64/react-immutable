@@ -5,9 +5,9 @@ const react_1 = require("react");
 const readable_1 = require("./readable");
 const useImmutable_1 = require("./useImmutable");
 /**
- * @function `useReadable` returns a React state management of a Readable
- * @param {ReadableCallback<State>} reader is a callback with `set` as parameter, which should be called each time the readable value changes
- * @returns {UseReadableOuput<State>} is an immutable (do not change in React LifeCycle) list of arguments, where first item is the current value of Readable, second item is an immutable Readable
+ * returns a React state management of a Readable
+ * @param reader is a callback with `set` as parameter, which should be called each time the readable value changes
+ * @returns is an immutable (do not change in React LifeCycle) list of arguments, where first item is the current value of Readable, second item is an immutable Readable
  */
 const useReadable = (reader) => {
     const [state, setState] = (0, react_1.useState)((0, readable_1.isReadable)(reader) ? reader.valueOf() : undefined);

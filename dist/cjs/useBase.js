@@ -12,7 +12,7 @@ const useImmutable_1 = require("./useImmutable");
  * const Comp: React.FC = () => {
  *   const [count, setCount] = useState(0);
  *   const base = useBase({ count });
- *   // `base` immutable, `handleClick` is here also immutable
+ *   // `base` and `setCount` are immutable, so `handleClick` is immutable here too
  *   const handleClick = useCallback(() => setCount(base.count + 1), [base, setCount]);
  *   return <button onClick={handleClick}>{count}</button>;
  * };
@@ -28,11 +28,9 @@ const useImmutable_1 = require("./useImmutable");
  * ```
  */
 const useBase = (entry) => {
-    if (!(typeof entry === "object")) {
+    if (!(typeof entry === "object"))
         throw new Error("First parameter should be an object");
-    }
-    const base = (0, useImmutable_1.useImmutable)(() => Object.assign({}, entry));
-    Object.assign(base, entry);
-    return base;
+    const base = (0, useImmutable_1.useImmutable)({});
+    return Object.assign(base, entry);
 };
 exports.useBase = useBase;

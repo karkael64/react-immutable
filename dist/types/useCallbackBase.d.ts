@@ -1,5 +1,5 @@
 /**
- * this hook creates an immutable callback, with component states `values` registered in `base` as parameter of your `fn` callback
+ * this hook creates an immutable callback, with component states `entry` registered in `base` as parameter of your `fn` callback
  * @example
  * ```ts
  * const Comp: React.FC<{ id: number }> = ({ id }) => {
@@ -30,7 +30,7 @@
  * const Comp: React.FC<{ count: number }> = ({ count }) => {
  *   const handleClick = useCallback(() => {
  *     console.log('call count', count);
- *   }, [id]);
+ *   }, [count, id]);
  *   return (<button onClick={handleClick}>{count}</button>)
  * };
  * ```
@@ -46,4 +46,4 @@
  * };
  * ```
  */
-export declare const useCallbackBase: <Values extends Record<string, any>, Fn extends (base: Values) => (...args: any[]) => any>(values: Values, fn: Fn) => ReturnType<Fn>;
+export declare const useCallbackBase: <Entry extends Record<string, any>, Fn extends (base: Entry) => (...args: any[]) => any>(entry: Entry, fn: Fn) => ReturnType<Fn>;

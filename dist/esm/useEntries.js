@@ -5,13 +5,13 @@ import { useImmutable } from "./useImmutable";
  * @returns an immutable object with methods to get entries
  * @example
  * ```ts
- * const Comp: React.FC<> = () => {
-  const [state, setState] = useState(-4.2);
-  const entries = useEntries(state);
-  const handleReset = useImmutable(() => setState(entries.getFirst()));
-
-  return <Form state={state} setState={setState} onReset={handleReset} />;
-};
+ * const Comp: React.FC = () => {
+ *   const [state, setState] = useState(-4.2);
+ *   const entries = useEntries(state);
+ *   const handleReset = useImmutable(() => setState(entries.getFirst()));
+ *
+ *   return <Form state={state} setState={setState} onReset={handleReset} />;
+ * };
  * ```
  */
 export const useEntries = (entry) => {

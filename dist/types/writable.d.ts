@@ -17,22 +17,22 @@ export type Writable<State, Input = State> = {
     update(updater: WritableUpdater<State, Input>): void;
     /**
      * @method `set` change Writable own data by `value`. The reducer is applied on the `value`.
-     * @param {Input} value the new Writable value. The reducer is applied on the `value`.
+     * @param {Input} value the writable value. The reducer is applied on the `value`.
      */
     set(value: Input): void;
     valueOf(): State;
     toString(): string;
 };
 /**
- * writable trigger listeners callback when its own data changes by a `set`or an `update`. The data should not be read outside of a `subscribe`.
+ * writable triggers listeners callback when its own data changes by a `set` or an `update`. The data should not be read outside of a `subscribe`.
  * @param init is the initial value of this writable instance
- * @param reducer is an optional callback which parses input data (by `set` or `update`) into the
+ * @param reducer is an optional callback which parses input data (by `set` or `update`) before setting the writable
  * @example
  * const key = 'color-scheme' as const;
  * const colorSchemes = ['dark', 'light'];
  * type ColorScheme = typeof colorSchemes[number] & string;
  * type Storage = { [k in typeof key]: ColorScheme };
- * export const storage = new Writable(
+ * export const storage = writable(
  *   Object.assign({ [key]: 'light' } as Storage, localStorage as unknown as Storage),
  *   (current, value: Partial<Storage>, set) => set({ ...current, ...value }),
  * );
