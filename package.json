@@ -1,6 +1,6 @@
 {
   "name": "react-hook-immutable",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "react hooks for immutable states",
   "keywords": [
     "react",
@@ -10,6 +10,7 @@
     "useImmutable",
     "useBase",
     "useCallbackBase",
+    "useCallbackImmutable",
     "useMemoBase",
     "useEntries",
     "readable",
