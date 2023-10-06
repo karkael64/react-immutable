@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isWritable = exports.writable = exports.isReadable = exports.readable = exports.useReadable = exports.useWritable = exports.useEntries = exports.useCallbackBase = exports.useMemoBase = exports.useBase = exports.useImmutable = void 0;
+exports.isWritable = exports.writable = exports.isReadable = exports.readable = exports.useReadable = exports.useWritable = exports.useEntries = exports.useCallbackBase = exports.useCallbackImmutable = exports.useMemoBase = exports.useBase = exports.useImmutable = void 0;
 var useImmutable_1 = require("./useImmutable");
 Object.defineProperty(exports, "useImmutable", { enumerable: true, get: function () { return useImmutable_1.useImmutable; } });
 var useBase_1 = require("./useBase");
 Object.defineProperty(exports, "useBase", { enumerable: true, get: function () { return useBase_1.useBase; } });
 var useMemoBase_1 = require("./useMemoBase");
 Object.defineProperty(exports, "useMemoBase", { enumerable: true, get: function () { return useMemoBase_1.useMemoBase; } });
+var useCallbackImmutable_1 = require("./useCallbackImmutable");
+Object.defineProperty(exports, "useCallbackImmutable", { enumerable: true, get: function () { return useCallbackImmutable_1.useCallbackImmutable; } });
 var useCallbackBase_1 = require("./useCallbackBase");
 Object.defineProperty(exports, "useCallbackBase", { enumerable: true, get: function () { return useCallbackBase_1.useCallbackBase; } });
 var useEntries_1 = require("./useEntries");

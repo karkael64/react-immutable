@@ -20,8 +20,9 @@ const Comp: React.FC<{
   count: number;
   onClick(id: string, count: number): void;
 }> = ({ id, count, onClick }) => {
-
-  const handleClick = useCallbackImmutable((ev: MouseEvent) => onClick(id, count));
+  const handleClick = useCallbackImmutable((ev: MouseEvent) =>
+    onClick(id, count)
+  );
   return <button onClick={handleClick}>Clicked {count} times!</button>;
 };
 ```
@@ -44,7 +45,6 @@ const Comp: React.FC<{
   count: number;
   onClick(id: string, count: number): void;
 }> = ({ id, count, onClick }) => {
-
   const handleClick = () => onClick(id, count);
   return <button onClick={handleClick}>Clicked {count} times!</button>;
 };
@@ -78,7 +78,6 @@ const Comp: React.FC<{
   count: number;
   onClick(id: string, count: number): void;
 }> = ({ id, count, onClick }) => {
-
   const idRef = useRef(id);
   useEffect(() => {
     idRef.current = id;
@@ -117,7 +116,6 @@ const Comp: React.FC<{
   count: number;
   onClick(id: string, count: number): void;
 }> = ({ id, count, onClick }) => {
-
   const handleClick = useCallbackBase(
     { id, count, onClick },
     (base) => (ev: MouseEvent) => base.onClick(base.id, base.count)
@@ -141,8 +139,9 @@ const Comp: React.FC<{
   count: number;
   onClick(id: string, count: number): void;
 }> = ({ id, count, onClick }) => {
-
-  const handleClick = useCallbackImmutable((ev: MouseEvent) => onClick(id, count));
+  const handleClick = useCallbackImmutable((ev: MouseEvent) =>
+    onClick(id, count)
+  );
   return <button onClick={handleClick}>Clicked {count} times!</button>;
 };
 ```
@@ -257,7 +256,9 @@ This hook creates an immutable callback. The function read parent scope & compon
 
 ```ts
 // declaration
-declare const useCallbackImmutable: <Fn extends (...args: any[]) => any>(fn: Fn) => Fn;
+declare const useCallbackImmutable: <Fn extends (...args: any[]) => any>(
+  fn: Fn
+) => Fn;
 ```
 
 ```ts
