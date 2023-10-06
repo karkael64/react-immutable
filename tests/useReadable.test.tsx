@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { useEffect } from "react";
 import { expect, it, test } from "vitest";
 import { useReadable } from "../src/useReadable";
@@ -73,7 +73,7 @@ const CompOuter: React.FC<{ countStorage: Writable<number> }> = ({
 };
 
 it("should use bind globally", async () => {
-  const { container, getAllByText } = render(
+  const { container, findAllByText } = render(
     <div>
       <CompGlobalA />
       <CompGlobalB />
@@ -82,16 +82,16 @@ it("should use bind globally", async () => {
   );
 
   expect(container).toMatchSnapshot();
-  await waitFor(() => expect(getAllByText(textToWrite)).toHaveLength(2));
+  expect(await findAllByText(textToWrite)).toHaveLength(2);
   expect(container).toMatchSnapshot();
 });
 
 it("should use bind on properties", async () => {
-  const { container, getAllByText } = render(
+  const { container, findAllByText } = render(
     <CompOuter countStorage={countStorage} />
   );
 
   expect(container).toMatchSnapshot();
-  await waitFor(() => expect(getAllByText("3")).toHaveLength(2));
+  expect(await findAllByText("3")).toHaveLength(2);
   expect(container).toMatchSnapshot();
 });
