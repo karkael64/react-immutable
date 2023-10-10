@@ -77,7 +77,7 @@ test("useEntries", async () => {
   expect(entries.getFirst()).toBe(entries.getLast());
 
   await waitFor(() => expect(onReadBaseState.calls.length).toBe(1));
-  expect(onReadBaseState.calls[0]![0]).toBe(1024);
+  await waitFor(() => expect(onReadBaseState.calls[0]![0]).toBe(1024));
   expect(onRender.calls.length, "should 1st render + 2 updates").toBe(3);
   expect(onStateChange.calls.length, "should be same as onRender").toBe(
     onRender.calls.length
