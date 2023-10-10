@@ -1,4 +1,4 @@
-import { useImmutable } from "./useImmutable";
+import { useRef } from "react";
 
 /**
  * this hook creates an immutable callback, even if `fn` changes. It is same as `useCallback`, but does not need dependencies.
@@ -6,13 +6,16 @@ import { useImmutable } from "./useImmutable";
 export const useCallbackImmutable = <T extends (...args: any[]) => any>(
   fn: T
 ): T => {
-  if (typeof fn !== "function")
+  if (typeof fn !== "function") {
     throw new Error("Parameter should be a function");
-  const cb = useImmutable(
-    () =>
-      (...args: Parameters<T>): ReturnType<T> =>
-        (cb as T & { state: T }).state(...args)
-  );
-  Object.assign(cb, { state: fn });
-  return cb as T;
+  }
+
+  const ref = useRef({
+    callback: fn,
+    immutable: (...args: Parameters<T>): ReturnType<T> =>
+      ref.current.callback(...args),
+  });
+
+  Object.assign(ref.current, { callback: fn });
+  return ref.current.immutable as T;
 };

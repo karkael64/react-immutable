@@ -1,6 +1,6 @@
 {
   "name": "react-hook-immutable",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "react hooks for immutable states",
   "keywords": [
     "react",
@@ -38,7 +38,8 @@
     "build-js-esm": "tsc --project tsconfig.build.json --outDir dist/esm --module esnext --declaration --declarationDir dist/types",
     "build-js-cjs": "tsc --project tsconfig.build.json --outDir dist/cjs --module commonjs",
     "prettier": "prettier --write src tests README.md",
-    "prepublish": "yarn build && yarn test && yarn prettier"
+    "get-version": "node -e \"console.log(JSON.parse(require('fs').readFileSync('./package.json')).version)\"",
+    "prepublish": "yarn build && yarn test && yarn prettier && git add . && git commit -m \"$(yarn --silent get-version)\" && git push origin HEAD --force-with-lease && git fetch"
   },
   "dependencies": {
     "react": "^18.2.0"

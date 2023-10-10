@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useRef } from "react";
+
+const isFunction = (el: unknown): el is (...args: any[]) => any =>
+  typeof el === "function";
 
 /**
  * this hook instanciates a variable which is immutable in React life cycle.
@@ -27,5 +30,17 @@ import { useState } from "react";
  * };
  * ```
  */
-export const useImmutable = <T>(definitiveState: (() => T) | T): T =>
-  useState(definitiveState)[0];
+export const useImmutable = <T>(definitiveState: (() => T) | T): T => {
+  const ref = useRef({ init: false, value: undefined as T });
+  if (!ref.current.init) {
+    Object.assign(ref, {
+      current: {
+        init: true,
+        value: isFunction(definitiveState)
+          ? definitiveState()
+          : definitiveState,
+      },
+    });
+  }
+  return ref.current.value;
+};
