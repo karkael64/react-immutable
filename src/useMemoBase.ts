@@ -38,13 +38,13 @@ import { useEffect, useState } from "react";
  * ```
  */
 export const useMemoBase = <
+  Computed,
   Entry extends Record<string, any>,
-  Fn extends (base: Entry) => any
 >(
   entry: Entry,
-  fn: Fn,
+  fn: (base: Entry) => Computed,
   dependencies: any[] = []
-): ReturnType<Fn> => {
+): Computed => {
   if (!(typeof fn === "function"))
     throw new Error("First parameter should be a function");
   let first = false;

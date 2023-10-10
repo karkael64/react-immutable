@@ -50,14 +50,14 @@ import { useImmutable } from "./useImmutable";
  * ```
  */
 export const useCallbackBase = <
-  Entry extends Record<string, any>,
-  Fn extends (base: Entry) => (...args: any[]) => any
+  Fn extends (...args: any[]) => any,
+  Entry extends Record<string, any>
 >(
   entry: Entry,
-  fn: Fn
-) => {
+  fn: (base: Entry) => Fn
+): Fn => {
   if (!(typeof fn === "function"))
     throw new Error("First parameter should be a function");
   const base = useBase<Entry>(entry);
-  return useImmutable(() => fn(base) as ReturnType<Fn>);
+  return useImmutable(() => fn(base));
 };
