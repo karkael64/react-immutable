@@ -34,4 +34,4 @@
  * };
  * ```
  */
-export declare const useMemoBase: <Entry extends Record<string, any>, Fn extends (base: Entry) => any>(entry: Entry, fn: Fn, dependencies?: any[]) => ReturnType<Fn>;
+export declare const useMemoBase: <Computed, Entry extends Record<string, any>>(entry: Entry, fn: (base: Entry) => Computed, dependencies?: any[]) => Computed;

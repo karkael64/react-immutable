@@ -46,4 +46,4 @@
  * };
  * ```
  */
-export declare const useCallbackBase: <Entry extends Record<string, any>, Fn extends (base: Entry) => (...args: any[]) => any>(entry: Entry, fn: Fn) => ReturnType<Fn>;
+export declare const useCallbackBase: <Fn extends (...args: any[]) => any, Entry extends Record<string, any>>(entry: Entry, fn: (base: Entry) => Fn) => Fn;

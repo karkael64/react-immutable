@@ -37,10 +37,7 @@ import { useEffect, useState } from "react";
  * };
  * ```
  */
-export const useMemoBase = <
-  Computed,
-  Entry extends Record<string, any>,
->(
+export const useMemoBase = <Computed, Entry extends Record<string, any>>(
   entry: Entry,
   fn: (base: Entry) => Computed,
   dependencies: any[] = []

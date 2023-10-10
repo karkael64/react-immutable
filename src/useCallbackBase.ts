@@ -51,7 +51,7 @@ import { useImmutable } from "./useImmutable";
  */
 export const useCallbackBase = <
   Fn extends (...args: any[]) => any,
-  Entry extends Record<string, any>
+  Entry extends Record<string, any> = Record<string, any>
 >(
   entry: Entry,
   fn: (base: Entry) => Fn
